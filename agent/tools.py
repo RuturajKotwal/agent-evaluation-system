@@ -45,9 +45,9 @@ def issue_refund_ticket(user:str, refund_amount:int) -> str:
     return f"a refund ticket has been issued successfully with the amount of {refund_amount}"
 
 @tool
-def check_current_date(user:str) -> str:
+def get_today_date(user:str) -> str:
     """this tool will return the current date"""
-    logging.info(f"using check_current_date tool to get the current date for user {user}")
+    logging.info(f"using get_today_date tool to get the current date for user {user}")
     return str(date.today())
 
 # print(get_user_purchase_history.invoke("user123"))
@@ -62,4 +62,4 @@ def check_current_date(user:str) -> str:
 
 # print(issue_refund_ticket.invoke({"user": "user123", "refund_amount": 20}))
 
-# print(check_current_date.invoke("user123"))
+# print(get_today_date.invoke("user123"))

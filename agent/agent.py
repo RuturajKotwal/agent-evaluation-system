@@ -1,6 +1,6 @@
 from models import model
 from tools import calculate_right_refund, issue_refund_ticket
-from tools import get_user_purchase_history, check_current_date
+from tools import get_user_purchase_history, get_today_date
 from dotenv import load_dotenv
 from langchain.agents import create_agent
 from prompts import agent_system_prompt
@@ -15,7 +15,7 @@ agent = create_agent(
     model=model,
     system_prompt=agent_system_prompt,
     tools=[get_user_purchase_history,calculate_right_refund,
-           issue_refund_ticket,check_current_date],
+           issue_refund_ticket,get_today_date],
     response_format=Answer,
     checkpointer=InMemorySaver()
 )

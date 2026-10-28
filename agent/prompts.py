@@ -15,7 +15,7 @@ rely on the right tools to get the needed information or perform the right tasks
 1- get_user_purchase_history
 2- calculate_right_refund
 3- issue_refund_ticket
-4- check_current_date
+4- get_today_date
 
 this is a conversation between you and the user.you can ask the user questions if you feel like you need specific answers about the refund.
 """
