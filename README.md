@@ -2,7 +2,7 @@
 
 A correct final answer is only one part of a successful agent run. Did the agent identify the customer, check refund eligibility, select the right tools, and refund only the requested items?
 
-This repository is a hands-on learning lab for answering those questions. It pairs a LangChain refund agent with **eight evaluation scenarios**, **seven metrics**, and small examples that isolate individual evaluation concepts. Start with the examples, follow the complete evaluation flow, then adapt it to your own agent.
+This repository is a hands-on learning lab for answering those questions. It pairs a LangChain refund agent with **seven evaluation scenarios**, **seven metrics**, and small examples that isolate individual evaluation concepts. Start with the examples, follow the complete evaluation flow, then adapt it to your own agent.
 
 ![DeepEval report showing task completion, step efficiency, plan quality, and plan adherence](screenshots/trace_metrics.png)
 
@@ -14,7 +14,6 @@ This repository is a hands-on learning lab for answering those questions. It pai
 - [Evaluation metrics](#evaluation-metrics)
 - [Evaluation dataset](#evaluation-dataset)
 - [Read the results](#read-the-results)
-- [Try the chat demo](#try-the-chat-demo)
 - [Explore and extend](#explore-and-extend)
 - [Project map](#project-map)
 - [Limitations and troubleshooting](#limitations-and-troubleshooting)
@@ -44,7 +43,7 @@ class Answer(BaseModel):
 
 ```mermaid
 flowchart TD
-    Dataset["Eight refund scenarios"] --> Runner["evaluations/eval_all.py"]
+    Dataset["seven refund scenarios"] --> Runner["evaluations/eval_all.py"]
     Runner --> Agent["LangChain refund agent"]
     Agent <--> Tools["Purchase history · date · refund calculation · ticket"]
     Agent --> Response["Structured answer + messages and tool calls"]
@@ -108,12 +107,6 @@ This runs the refund agent once per scenario, evaluates all seven metrics, and p
 1. `dataset.evals_iterator(...)` runs four metrics against the execution trace captured by `CallbackHandler`.
 2. The runner collects the same run's structured answer and tool calls into an `LLMTestCase`. `evaluate(...)` then applies the remaining three metrics.
 
-Reusing the response avoids generating a different answer for each metric. The runner disables cache reads and writes and sets `inspect_after_run=False`, so it does not automatically launch the inspector. The terminal ends with:
-
-```text
-Completed all 7 metrics for 8 test cases.
-```
-
 Completion means the evaluation finished; individual metrics can still fail. The script produces two evaluation reports, one for each stage, rather than a single combined export.
 
 ### Study one metric at a time
@@ -148,7 +141,7 @@ The `GEval` rubric checks the logical conclusion against the reference answer. R
 
 ## Evaluation dataset
 
-[`evaluations/dataset.py`](evaluations/dataset.py) defines eight DeepEval `Golden` cases. A golden describes the desired behavior before the agent runs; an `LLMTestCase` adds the actual output and observed tool calls afterward.
+[`evaluations/dataset.py`](evaluations/dataset.py) defines seven DeepEval `Golden` cases. A golden describes the desired behavior before the agent runs; an `LLMTestCase` adds the actual output and observed tool calls afterward.
 
 | Scenario | Expected behavior encoded in the dataset |
 |---|---|
@@ -167,7 +160,7 @@ For a meaningful experiment, align [`agent/data.py`](agent/data.py) and the expe
 
 ## Read the results
 
-The screenshots below show an example run over eight cases. They illustrate how to diagnose failures; they are not a reproducible benchmark or a guarantee of current performance.
+The screenshots below show an example run over seven cases. They illustrate how to diagnose failures; they are not a reproducible benchmark or a guarantee of current performance.
 
 | Metric | Average score | Pass rate | Passed / total |
 |---|---:|---:|---:|
@@ -212,7 +205,7 @@ Useful additions to the dataset include purchases exactly 30 days old, future pu
 | [`agent/prompts.py`](agent/prompts.py) | Refund policy and conversation instructions |
 | [`agent/objects.py`](agent/objects.py) | `Answer` and `PurchaseItem` Pydantic schemas |
 | [`agent/models.py`](agent/models.py) | Agent model configuration |
-| [`evaluations/dataset.py`](evaluations/dataset.py) | Eight refund goldens with expected answers and tools |
+| [`evaluations/dataset.py`](evaluations/dataset.py) | seven refund goldens with expected answers and tools |
 | [`evaluations/eval_all.py`](evaluations/eval_all.py) | Combined seven-metric evaluation runner |
 | [`evaluations/model.py`](evaluations/model.py) | Judge model configuration |
 | [`evaluations/`](evaluations/) | Individual refund metric scripts |
@@ -222,7 +215,7 @@ Useful additions to the dataset include purchases exactly 30 days old, future pu
 
 ## Limitations and troubleshooting
 
-This is an educational prototype with a small, single-turn evaluation dataset. The interactive agent has memory, but the eight goldens do not test complete multi-turn conversations. Refund eligibility is prompt-driven, and the tools do not provide production validation or persistent storage. Unknown users or items passed directly to the calculation tool can raise lookup errors.
+This is an educational prototype with a small, single-turn evaluation dataset. The interactive agent has memory, but the seven goldens do not test complete multi-turn conversations. Refund eligibility is prompt-driven, and the tools do not provide production validation or persistent storage. Unknown users or items passed directly to the calculation tool can raise lookup errors.
 
 | Symptom | What to check |
 |---|---|
