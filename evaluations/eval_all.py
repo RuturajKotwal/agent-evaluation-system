@@ -16,7 +16,7 @@ from deepeval.metrics import (
     TaskCompletionMetric,
     ToolCorrectnessMetric,
 )
-from deepeval.test_case import LLMTestCase, SingleTurnParams, ToolCall
+from deepeval.test_case import LLMTestCase, SingleTurnParams, ToolCall, ToolCallParams
 
 if __package__:
     from .dataset import dataset
@@ -63,6 +63,7 @@ def build_metrics():
         ),
         ToolCorrectnessMetric(
             threshold=0.9, model=eval_model, include_reason=True,
+            evaluation_params=[ToolCallParams.INPUT_PARAMETERS],
         ),
         GEval(
             name="Answer Correctness",
